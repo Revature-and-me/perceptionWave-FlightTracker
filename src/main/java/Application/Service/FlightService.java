@@ -53,7 +53,7 @@ public class FlightService {
      *         inform our provide the front-end client with information about the added Flight.
      */
     public Flight addFlight(Flight flight){
-        return null;
+        return flightDAO.insertFlight(flight);
     }
 
     /**
@@ -69,8 +69,13 @@ public class FlightService {
      *         unsuccessful. We do this to inform our application about successful/unsuccessful operations. (eg, the
      *         user should have some insight if they attempted to edit a nonexistent flight.)
      */
-    public Flight updateFlight(int flight_id, Flight flight){
-        return null;
+    public Flight updateFlight(int flight_id, Flight flight) {
+        if (flightDAO.getFlightById(flight_id) != null) {
+            flightDAO.updateFlight(flight_id, flight);
+            return new Flight(flight_id, flight.getDeparture_city(), flight.getArrival_city());
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -80,7 +85,7 @@ public class FlightService {
      * @return all flights in the database.
      */
     public List<Flight> getAllFlights() {
-        return null;
+        return flightDAO.getAllFlights();
     }
 
     /**
@@ -92,6 +97,6 @@ public class FlightService {
      * @return all flights departing from departure_city and arriving at arrival_city.
      */
     public List<Flight> getAllFlightsFromCityToCity(String departure_city, String arrival_city) {
-        return null;
+        return flightDAO.getAllFlightsFromCityToCity(departure_city, arrival_city);
     }
 }
